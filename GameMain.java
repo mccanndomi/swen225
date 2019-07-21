@@ -22,24 +22,28 @@ public class GameMain {
         GenerateWeapons();
 
         Characters player = null;
-        int num = 0;
+        int num = 7;
+        String confirm = "";
         while (player == null) {
             System.out.println("Please choose a character to play as by entering the number next to their name ");
             System.out.println("Your options are: \n");
-            System.out.println("0 : Mrs. White \n" + "1 : Colonel Mustard \n" + "2 Miss Scarlett  \n" + "3: Professor Plum \n" + "4 : Mrs. Peacock \n" + "5 : Mr. Green \n");
+            System.out.println("0 : Mrs. White \n" + "1 : Colonel Mustard \n" + "2 : Miss Scarlett  \n" + "3: Professor Plum \n" + "4 : Mrs. Peacock \n" + "5 : Mr. Green \n");
             try {
+
                 InputStreamReader isr = new InputStreamReader(System.in);
                 BufferedReader br = new BufferedReader(isr);
                 String answer = br.readLine();
                 num = Integer.parseInt(answer);
                 System.out.println("you have selected " + PlayableCharcters.get(num).getName() + " if this is correct please press y, else press n ");
-                String confirm = br.readLine();
+                confirm = br.readLine();
+
+
                 if (confirm.equals("y") || confirm.equals("Y")) {
                     player = PlayableCharcters.get(num);
                     PlayableCharcters.get(num).setIsPlayer(true);
                 }
                 if (player != null) {
-                    System.out.println("Player selection finished you are " + PlayableCharcters.get(num).getName());
+                    System.out.println("Player selection finished you are " + PlayableCharcters.get(num).getName() + " and your start postion is ( " + PlayableCharcters.get(num).getLocationX() + " , " + PlayableCharcters.get(num).getLocationY() + " )");
                 }
 
             } catch (IOException wronginput) {
@@ -105,12 +109,13 @@ public class GameMain {
             PlayableCharcters.add(temp);
             pos = pos +2;
         }
-
+        /*
         for (Characters c : PlayableCharcters){
             System.out.println(c.getName());
             System.out.println(c.getLocationX());
             System.out.println(c.getLocationY());
         }
+        */
 
 
         /*
