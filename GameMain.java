@@ -20,6 +20,18 @@ public class GameMain {
         GenerateStartCharacters();
         GenerateRooms();
         GenerateWeapons();
+        try{
+            int numpeople = 10;
+            while (numpeople < 0 || numpeople > 7) {
+                System.out.println("How many people would like to play ? (max 6 players)");
+                InputStreamReader isr = new InputStreamReader(System.in);
+                BufferedReader br = new BufferedReader(isr);
+                String answer = br.readLine();
+                numpeople = Integer.parseInt(answer);
+            }
+        }catch (IOException ioerror){
+            System.out.println("io exception");
+        }
 
         Characters player = null;
         int num = 7;
