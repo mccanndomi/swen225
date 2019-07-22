@@ -8,11 +8,14 @@ import java.util.Random;
 
 
 public class GameMain {
+    private ArrayList<PlayerObject> Players = new ArrayList<>();
     private ArrayList<Characters> PlayableCharcters = new ArrayList();
+    private ArrayList<Characters> ActiveCharacters = new ArrayList<>();
     private ArrayList<Rooms> PlayableRooms = new ArrayList();
     private ArrayList<Weapons> PlayableWeapons = new ArrayList();
     public int diceone;
     public int dicetwo;
+    public  int numpeople;
     public GameMain() { CreateGame();
     }
 
@@ -20,8 +23,14 @@ public class GameMain {
         GenerateStartCharacters();
         GenerateRooms();
         GenerateWeapons();
-        try{
-            int numpeople = 10;
+        chooseCharacters();
+        createMurder();
+        playGame();
+    }
+
+    public void chooseCharacters() {
+        numpeople = -1;
+        try {
             while (numpeople < 0 || numpeople > 7) {
                 System.out.println("How many people would like to play ? (max 6 players)");
                 InputStreamReader isr = new InputStreamReader(System.in);
@@ -29,50 +38,113 @@ public class GameMain {
                 String answer = br.readLine();
                 numpeople = Integer.parseInt(answer);
             }
-        }catch (IOException ioerror){
+        } catch (IOException ioerror) {
             System.out.println("io exception");
         }
 
-        Characters player = null;
-        int num = 7;
-        String confirm = "";
-        while (player == null) {
-            System.out.println("Please choose a character to play as by entering the number next to their name ");
-            System.out.println("Your options are: \n");
-            System.out.println("0 : Mrs. White \n" + "1 : Colonel Mustard \n" + "2 : Miss Scarlett  \n" + "3: Professor Plum \n" + "4 : Mrs. Peacock \n" + "5 : Mr. Green \n");
-            try {
-
+        try{
+            for (int i = 0; i <  numpeople; i++) {
+                System.out.println("enter player " + i + "'s  name");
                 InputStreamReader isr = new InputStreamReader(System.in);
                 BufferedReader br = new BufferedReader(isr);
                 String answer = br.readLine();
-                num = Integer.parseInt(answer);
-                System.out.println("you have selected " + PlayableCharcters.get(num).getName() + " if this is correct please press y, else press n ");
-                confirm = br.readLine();
+                PlayerObject p = new PlayerObject(answer, i);
+                Players.add(p);
+            }
+
+        }catch(IOException ioerror){
+            System.out.println("io exception");
+        }
 
 
-                if (confirm.equals("y") || confirm.equals("Y")) {
-                    player = PlayableCharcters.get(num);
-                    PlayableCharcters.get(num).setIsPlayer(true);
+        Characters player = null;
+        System.out.println("num people is " + numpeople);
+        int num = 7;
+        String confirm = "";
+        for (PlayerObject p : Players){
+           // while (player == null) {
+                System.out.println(p.getName() + ", please choose a character to play as by entering the number next to their name ");
+                System.out.println("Your options are: \n");
+                for (Characters c : PlayableCharcters){
+                    if (!ActiveCharacters.contains(c)){
+                        System.out.println(c.getIDnumber() + " : " + c.getName());
+                    }
                 }
-                if (player != null) {
-                    System.out.println("Player selection finished you are " + PlayableCharcters.get(num).getName() + " and your start postion is ( " + PlayableCharcters.get(num).getLocationX() + " , " + PlayableCharcters.get(num).getLocationY() + " )");
+                //System.out.println("0 : Mrs. White \n" + "1 : Colonel Mustard \n" + "2 : Miss Scarlett  \n" + "3: Professor Plum \n" + "4 : Mrs. Peacock \n" + "5 : Mr. Green \n");
+                try {
+                    InputStreamReader isr = new InputStreamReader(System.in);
+                    BufferedReader br = new BufferedReader(isr);
+
+
+                    String answer = br.readLine();
+                    num = Integer.parseInt(answer);
+
+                    System.out.println("you have selected " + PlayableCharcters.get(num).getName() + " if this is correct please press y, else press n ");
+                    confirm = br.readLine();
+
+
+
+                    if (confirm.equals("y") || confirm.equals("Y")) {
+                        player = PlayableCharcters.get(num);
+                        PlayableCharcters.get(num).setIsPlayer(true);
+                        ActiveCharacters.add(PlayableCharcters.get(num));
+                        p.setCharacterNum(num);
+                    }
+                    if (player != null) {
+                        System.out.println("You have selected your player,  you are " + PlayableCharcters.get(num).getName() + " and your start postion is ( " + PlayableCharcters.get(num).getLocationX() + " , " + PlayableCharcters.get(num).getLocationY() + " )");
+                    }
+
+                } catch (IOException wronginput) {
+                    System.out.println("io exception");
                 }
 
-            } catch (IOException wronginput) {
-                System.out.println("io exception");
+        }
+
+    }
+
+    public void createMurder(){
+        Random room = new Random();
+        Random weapon = new Random();
+        Random character = new Random();
+        int r = room.nextInt(9);
+        int w = weapon.nextInt(6);
+        int c = character.nextInt(numpeople);
+        PlayableRooms.get(r).setMurderRoom(true);
+        PlayableWeapons.get(w).setMurderWeapon(true);
+        int cnum = Players.get(c).getCharacterNum();
+        PlayableCharcters.get(cnum).setMurderPerson(true);
+        int murderernum = 0;
+        for (Characters ch : PlayableCharcters){
+            if(ch.getMurderPerson()){
+                System.out.println(ch.getName() + " is murderer");
+                murderernum = ch.getIDnumber();
+            }
+        }
+        for (Weapons we : PlayableWeapons){
+            if(we.getMurderWeapon()){
+                System.out.println(we.getName() + " is murder weapon");
+            }
+        }
+        for (Rooms ro : PlayableRooms){
+            if(ro.getMurderRoom()){
+                System.out.println(ro.getName() + " is murder room");
+            }
+        }
+        for (PlayerObject pl : Players){
+            if (pl.getCharacterNum() == murderernum){
+                System.out.println(pl.getName() + " is mudrder player ");
             }
         }
 
-        Random murder = new Random();
-        int murdernum = murder.nextInt(6);
-        while (murdernum == num){
-            murdernum = murder.nextInt(6);
-        }
-        PlayableCharcters.get(murdernum).setMurderPerson(true);
-        playGame();
+
+
+
+
     }
 
+
     public void playGame(){
+
         try {
             InputStreamReader isr = new InputStreamReader(System.in);
             BufferedReader br = new BufferedReader(isr);
@@ -117,7 +189,7 @@ public class GameMain {
             Boolean tempBool = false;
             int lx = characterStartLocaations.get(pos);
             int ly = characterStartLocaations.get(pos+1);
-            Characters temp = new Characters(i,tempname,tempBool,lx,ly);
+            Characters temp = new Characters(i,tempname,tempBool,lx,ly, i);
             PlayableCharcters.add(temp);
             pos = pos +2;
         }
@@ -197,7 +269,9 @@ public class GameMain {
             notAvailable.add(e);
             i++;
         }
-        Rooms k = new Rooms(name,num,mr,corners,notAvailable);
+        ArrayList<Integer> Doors = new ArrayList<>();
+        Doors.addAll(Arrays.asList(4,6));
+        Rooms k = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(k);
         /*
             dining room
@@ -224,7 +298,9 @@ public class GameMain {
             notAvailable.add(e);
             i++;
         }
-        Rooms dr = new Rooms(name,num,mr,corners,notAvailable);
+        Doors.clear();
+        Doors.addAll(Arrays.asList(7,12,6,15));
+        Rooms dr = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(dr);
         /*
              lounge
@@ -251,7 +327,9 @@ public class GameMain {
             notAvailable.add(e);
             i++;
         }
-        Rooms l = new Rooms(name,num,mr,corners,notAvailable);
+        Doors.clear();
+        Doors.addAll(Arrays.asList(6,19));
+        Rooms l = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(l);
 
         /*
@@ -278,7 +356,9 @@ public class GameMain {
             notAvailable.add(e);
             i++;
         }
-        Rooms h = new Rooms(name,num,mr,corners,notAvailable);
+        Doors.clear();
+        Doors.addAll(Arrays.asList(11,18, 12,18,14,20));
+        Rooms h = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(h);
         /*
         study
@@ -304,7 +384,9 @@ public class GameMain {
             notAvailable.add(e);
             i++;
         }
-        Rooms s = new Rooms(name,num,mr,corners,notAvailable);
+        Doors.clear();
+        Doors.addAll(Arrays.asList(17,21));
+        Rooms s = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(s);
         /*
         library
@@ -329,7 +411,9 @@ public class GameMain {
             notAvailable.add(e);
             i++;
         }
-        Rooms lib = new Rooms(name,num,mr,corners,notAvailable);
+        Doors.clear();
+        Doors.addAll(Arrays.asList(17,16, 20, 14));
+        Rooms lib = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(lib);
         /*
         Billard room
@@ -354,7 +438,9 @@ public class GameMain {
             notAvailable.add(e);
             i++;
         }
-        Rooms billard = new Rooms(name,num,mr,corners,notAvailable);
+        Doors.clear();
+        Doors.addAll(Arrays.asList(15, 9, 19,12));
+        Rooms billard = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(billard);
         /*
         conservtry
@@ -379,7 +465,9 @@ public class GameMain {
             notAvailable.add(e);
             i++;
         }
-        Rooms conserve = new Rooms(name,num,mr,corners,notAvailable);
+        Doors.clear();
+        Doors.addAll(Arrays.asList(18, 4));
+        Rooms conserve = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(conserve);
         /*
         ball room
@@ -404,7 +492,9 @@ public class GameMain {
             notAvailable.add(e);
             i++;
         }
-        Rooms ball = new Rooms(name,num,mr,corners,notAvailable);
+        Doors.clear();
+        Doors.addAll(Arrays.asList(8, 5, 10, 7, 15, 7, 16, 5));
+        Rooms ball = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(ball);
 
     }

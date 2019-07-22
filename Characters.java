@@ -1,18 +1,22 @@
 public class Characters {
+    private int IDnumber;
     private int locationX;
     private  int locationY;
     private int CharacterNumber;
     private String name;
     private Boolean MurderPerson;
     private boolean IsPlayer;
-    public Characters(int i, String n, boolean b, int locx, int locy){
+
+
+
+    public Characters(int i, String n, boolean b, int locx, int locy, int ID){
         locationX = locx;
         locationY = locy;
         CharacterNumber = i;
         name = n;
         MurderPerson = b;
         IsPlayer = false;
-
+        IDnumber = ID;
     }
 
 
@@ -36,6 +40,10 @@ public class Characters {
     public void setLocationX(int locationX) { this.locationX = locationX; }
     public Boolean getIsPlayer(){return  IsPlayer;}
     public void setIsPlayer(Boolean isPlayer ){IsPlayer = isPlayer;}
+    public boolean isPlayer() { return IsPlayer; }
+    public void setPlayer(boolean player) { IsPlayer = player; }
+    public int getIDnumber() { return IDnumber; }
+    public void setIDnumber(int IDnumber) { this.IDnumber = IDnumber; }
 
 
 

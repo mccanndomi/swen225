@@ -6,13 +6,16 @@ public class Rooms {
     Boolean MurderRoom;
     ArrayList<boardspot> corners;
     ArrayList<boardspot> notAvailable;
+    ArrayList<Integer>Doors;
 
-    public Rooms(String n, int rn, boolean mr, ArrayList<boardspot> c, ArrayList<boardspot> na){
+
+    public Rooms(String n, int rn, boolean mr, ArrayList<boardspot> c, ArrayList<boardspot> na, ArrayList<Integer> d){
         name = n;
         RoomNumber = rn;
         MurderRoom = mr;
         corners = c;
         notAvailable =  na;
+        Doors = d;
     }
 
     public ArrayList<boardspot> getNotAvailable() { return notAvailable; }
@@ -26,6 +29,9 @@ public class Rooms {
     public void setRoomNumber(int roomNumber) { RoomNumber = roomNumber; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+    public ArrayList<Integer> getDoors() { return Doors; }
+    public void setDoors(ArrayList<Integer> doors) { Doors = doors; }
+
 
     @Override
     public String toString() {
