@@ -1,15 +1,22 @@
 import java.util.ArrayList;
 
-public class Rooms {
+public class Rooms implements Card {
     String name;
     int RoomNumber;
     Boolean MurderRoom;
     ArrayList<boardspot> corners;
     ArrayList<boardspot> notAvailable;
-    ArrayList<Integer>Doors;
+    ArrayList<boardspot>Doors;
+    public Rooms(String n, int rn, boolean mr, ArrayList<boardspot> c, ArrayList<boardspot> na){
+        name = n;
+        RoomNumber = rn;
+        MurderRoom = mr;
+        corners = c;
+        notAvailable =  na;
 
+    }
 
-    public Rooms(String n, int rn, boolean mr, ArrayList<boardspot> c, ArrayList<boardspot> na, ArrayList<Integer> d){
+    public Rooms(String n, int rn, boolean mr, ArrayList<boardspot> c, ArrayList<boardspot> na, ArrayList<boardspot> d){
         name = n;
         RoomNumber = rn;
         MurderRoom = mr;
@@ -29,8 +36,8 @@ public class Rooms {
     public void setRoomNumber(int roomNumber) { RoomNumber = roomNumber; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
-    public ArrayList<Integer> getDoors() { return Doors; }
-    public void setDoors(ArrayList<Integer> doors) { Doors = doors; }
+    public ArrayList<boardspot> getDoors() { return Doors; }
+    public void setDoors(ArrayList<boardspot> doors) { Doors = doors; }
 
 
     @Override

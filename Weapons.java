@@ -1,4 +1,4 @@
-public class Weapons {
+public class Weapons implements Card{
     private int locationX;
     private int LocationY;
     private  int WeaponNumber;

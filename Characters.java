@@ -1,4 +1,4 @@
-public class Characters {
+public class Characters implements Card {
     private int IDnumber;
     private int locationX;
     private  int locationY;

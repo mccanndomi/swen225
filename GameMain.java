@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.math.*;
 import java.util.Arrays;
 import java.util.Random;
+import java.io.File;
+import java.util.Scanner;
+import java.io.FileReader;
 
 
 public class GameMain {
@@ -167,6 +170,7 @@ public class GameMain {
 
     public void GenerateStartCharacters(){
         ArrayList<Integer> startlocations = new ArrayList<>();
+        System.out.println("characters");
 
         startlocations.addAll(Arrays.asList(9,-1,0,16,7,24));
         /*
@@ -213,6 +217,7 @@ public class GameMain {
 
     }
     public void GenerateWeapons(){
+        System.out.println("weapons");
         ArrayList<String> weaponnames = new ArrayList<>();
         weaponnames.add("Candlestick");
         weaponnames.add("Dagger");
@@ -243,9 +248,89 @@ public class GameMain {
 
     }
     public void GenerateRooms(){
+        System.out.println("rooms");
+        int pos = 0;
+
+
+        try {
+            File file = new File("C:\\Users\\aidan\\IdeaProjects\\SWEN225_A1\\src\\roomData.txt");
+            Scanner input = new Scanner(file);
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            input = new Scanner(file);
+            String in = br.readLine();
+            if (in.equals("Rooms:")){
+                while(PlayableRooms.size() < 9){
+                    String name = br.readLine();
+                    String line = br.readLine();
+                    String [] tokens = line.split(",");
+
+                    ArrayList<boardspot> corners = new ArrayList<>();
+                    //name = input.nextLine();
+                    int p = 0;
+                    int j = p+1;
+                   for(int i =0 ; i < 4; i++){
+                        int a = Integer.parseInt( tokens[p]);
+                        int b = Integer.parseInt( tokens[j]);
+                        boardspot c = new boardspot(a,b,true);
+                        corners.add(c);
+                        p = p+2;
+                        j = p+1;
+                    }
+                    line = br.readLine();
+                    String na [] = line.split(",");
+                    ArrayList<boardspot> notAvailable = new ArrayList<>();
+                    //name = input.nextLine();
+
+                    p = 0;
+                    j = p + 1;
+                    for(int i = 0; i < na.length/2; i++){
+
+                        int a = Integer.parseInt(tokens[p]);
+                        int b = Integer.parseInt(tokens[j]);
+                        boardspot c = new boardspot(a,b,false);
+                        notAvailable.add(c);
+                        p = p+2;
+                        j = p+1;
+                    }
+                    ArrayList<boardspot> doors = new ArrayList<>();
+                    line = br.readLine();
+                    String d [] = line.split(",");
+                    p = 0;
+                    j = p+1;
+                    for (int i = 0; i < d.length/2; i++) {
+                        int a = Integer.parseInt(tokens[p]);
+                        int b = Integer.parseInt(tokens[j]);
+                        boardspot c = new boardspot(a, b, true);
+                        doors.add(c);
+                        p = p+2;
+                        j = p+1;
+                    }
+
+                    System.out.println(pos);
+                    Rooms r = new Rooms(name, pos, false , corners, notAvailable, doors);
+                    pos++;
+                    PlayableRooms.add(r);
+                }
+
+            }
+
+        } catch (IOException sc){
+            System.out.println("ioexception");
+        }
+        System.out.println("clear");
+        for (Rooms r : PlayableRooms){
+            System.out.println(r.getName());
+
+
+            System.out.println("corners " + r.corners.size());
+            System.out.println("not avilable " + r.notAvailable.size());
+            System.out.println("doors " + r.Doors.size());
+            System.out.println(" ");
+        }
         /*
-        Kitchen
-         */
+
+
+
         String name = "Kitchen";
         int num = 1;
         boolean mr = false;
@@ -273,9 +358,9 @@ public class GameMain {
         Doors.addAll(Arrays.asList(4,6));
         Rooms k = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(k);
-        /*
-            dining room
-         */
+
+        //dinging room
+
 
         name = "Dining Room";
         num = 2;
@@ -302,9 +387,7 @@ public class GameMain {
         Doors.addAll(Arrays.asList(7,12,6,15));
         Rooms dr = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(dr);
-        /*
-             lounge
-         */
+
 
         name = "lounge";
         num = 3;
@@ -332,9 +415,7 @@ public class GameMain {
         Rooms l = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(l);
 
-        /*
-        hall
-         */
+
         name = "hall";
         num = 4;
         mr = false;
@@ -360,9 +441,7 @@ public class GameMain {
         Doors.addAll(Arrays.asList(11,18, 12,18,14,20));
         Rooms h = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(h);
-        /*
-        study
-         */
+
         name = "study";
         num = 5;
         mr = false;
@@ -388,9 +467,7 @@ public class GameMain {
         Doors.addAll(Arrays.asList(17,21));
         Rooms s = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(s);
-        /*
-        library
-         */
+
         name = "library";
         num = 6;
         mr = false;
@@ -415,9 +492,7 @@ public class GameMain {
         Doors.addAll(Arrays.asList(17,16, 20, 14));
         Rooms lib = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(lib);
-        /*
-        Billard room
-         */
+
         name = "billard room";
         num = 7;
         mr = false;
@@ -442,9 +517,7 @@ public class GameMain {
         Doors.addAll(Arrays.asList(15, 9, 19,12));
         Rooms billard = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(billard);
-        /*
-        conservtry
-         */
+
         name = "conservatory";
         num = 8;
         mr = false;
@@ -469,9 +542,7 @@ public class GameMain {
         Doors.addAll(Arrays.asList(18, 4));
         Rooms conserve = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(conserve);
-        /*
-        ball room
-         */
+
         name = "ball room";
         num = 9;
         mr = false;
@@ -496,6 +567,7 @@ public class GameMain {
         Doors.addAll(Arrays.asList(8, 5, 10, 7, 15, 7, 16, 5));
         Rooms ball = new Rooms(name,num,mr,corners,notAvailable, Doors);
         PlayableRooms.add(ball);
+        */
 
     }
 
@@ -506,11 +578,7 @@ public class GameMain {
         int d2 = dicet.nextInt(7);
         diceone = d1;
         dicetwo = d2;
-
-
-
     }
-
 
     public static void main(String[] args) {
          new GameMain();
