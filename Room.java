@@ -8,24 +8,44 @@ import java.util.ArrayList;
 // line 154 "model.ump"
 public class Room extends BoardEntity
 {
+    public ArrayList getDoors() {
+        return doors;
+    }
 
-    //------------------------
+    public void setDoors(ArrayList doors) {
+        this.doors = doors;
+    }
+
+    public ArrayList getNotAvilable() {
+        return notAvilable;
+    }
+
+    public void setNotAvilable(ArrayList notAvilable) {
+        this.notAvilable = notAvilable;
+    }
+//------------------------
     // MEMBER VARIABLES
     //------------------------
 
     //Room Attributes
     private String name;
     private ArrayList corners;
+    private ArrayList notAvilable;
+    private ArrayList doors;
+    private int IDnumber;
 
     //------------------------
     // CONSTRUCTOR
     //------------------------
 
-    public Room(Board aBoard, String aName, ArrayList aCorners)
+    public Room(Board aBoard, String aName, ArrayList aCorners, ArrayList aNotAvailable, ArrayList aDoors, int aIDnumber)
     {
         super(aBoard);
         name = aName;
         corners = aCorners;
+        notAvilable = aNotAvailable;
+        doors = aDoors;
+        IDnumber  = aIDnumber;
     }
 
     //------------------------

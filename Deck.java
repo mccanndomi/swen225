@@ -42,7 +42,7 @@ public class Deck
         active = aActive;
         inactive = aInactive;
         cards = new ArrayList<Card>();
-        gameMain = new GameMain(aBoardForGameMain, this);
+        //gameMain = new GameMain(aBoardForGameMain, this);
     }
 
     //------------------------

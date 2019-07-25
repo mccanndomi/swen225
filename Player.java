@@ -15,6 +15,7 @@ public class Player
     //------------------------
 
     //Player Attributes
+    private String name;
     private HashSet hand;
     private ArrayList seen;
     private Characters character;
@@ -27,8 +28,17 @@ public class Player
     // CONSTRUCTOR
     //------------------------
 
-    public Player(HashSet aHand, ArrayList aSeen, Characters aCharacter, int aId, GameMain aGameMain)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Player(HashSet aHand, ArrayList aSeen, Characters aCharacter, int aId, GameMain aGameMain, String n)
     {
+        name = n;
         hand = aHand;
         seen = aSeen;
         character = aCharacter;

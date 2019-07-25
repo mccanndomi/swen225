@@ -26,7 +26,12 @@ public class boardSpot
     //------------------------
     // CONSTRUCTOR
     //------------------------
+    public boardSpot(int ax , int ay , boolean aavailable){
+        x = ax;
+        y = ay;
+        available = aavailable;
 
+    }
     public boardSpot(String aType, String aName, int aX, int aY, boolean aAvailable, Board aBoard)
     {
         type = aType;

@@ -14,15 +14,25 @@ public class Characters extends Piece
 
     //Characters Attributes
     private boolean isPlayer;
+    int id;
 
     //------------------------
     // CONSTRUCTOR
     //------------------------
 
-    public Characters(Board aBoard, boardSpot aLocation, String aName, boolean aIsPlayer)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Characters(Board aBoard, boardSpot aLocation, String aName, boolean aIsPlayer, int d)
     {
         super(aBoard, aLocation, aName);
         isPlayer = aIsPlayer;
+        id = d;
     }
 
     //------------------------

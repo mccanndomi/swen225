@@ -48,7 +48,7 @@ public class Board
         rooms = aRooms;
         boardSpots = new ArrayList<boardSpot>();
         boardEntities = new ArrayList<BoardEntity>();
-        gameMain = new GameMain(this, aDeckForGameMain);
+       // gameMain = new GameMain(this, aDeckForGameMain);
     }
 
     //------------------------
@@ -164,7 +164,7 @@ public class Board
         return 0;
     }
     /* Code from template association_AddManyToOne */
-    public boardSpot addBoardSpot(char aType, String aName, int aX, int aY, boolean aAvailable)
+    public boardSpot addBoardSpot(String aType, String aName, int aX, int aY, boolean aAvailable)
     {
         return new boardSpot(aType, aName, aX, aY, aAvailable, this);
     }
