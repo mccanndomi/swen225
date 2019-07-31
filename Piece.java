@@ -16,6 +16,7 @@ public class Piece extends BoardEntity
     private boardSpot location;
     private String name;
 
+
     //------------------------
     // CONSTRUCTOR
     //------------------------
@@ -25,6 +26,8 @@ public class Piece extends BoardEntity
         super(aBoard);
         location = aLocation;
         name = aName;
+
+
     }
 
     //------------------------

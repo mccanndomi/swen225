@@ -35,6 +35,14 @@ public class Room extends BoardEntity
     private int IDnumber;
 
     //------------------------
+
+    public int getIDnumber() {
+        return IDnumber;
+    }
+
+    public void setIDnumber(int IDnumber) {
+        this.IDnumber = IDnumber;
+    }
     // CONSTRUCTOR
     //------------------------
 

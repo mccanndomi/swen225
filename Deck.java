@@ -14,8 +14,8 @@ public class Deck
     //------------------------
 
     //Deck Attributes
-    private ArrayList active;
-    private ArrayList inactive;
+    private ArrayList<BoardEntity> active;
+    private ArrayList<BoardEntity> inactive;
 
     //Deck Associations
     private List<Card> cards;

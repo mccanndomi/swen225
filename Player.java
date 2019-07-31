@@ -16,8 +16,8 @@ public class Player
 
     //Player Attributes
     private String name;
-    private HashSet hand;
-    private ArrayList seen;
+    private HashSet<Card> hand;
+    private ArrayList<Card> seen;
     private Characters character;
     private int id;
 
@@ -36,7 +36,7 @@ public class Player
         this.name = name;
     }
 
-    public Player(HashSet aHand, ArrayList aSeen, Characters aCharacter, int aId, GameMain aGameMain, String n)
+    public Player(HashSet<Card> aHand, ArrayList aSeen, Characters aCharacter, int aId, GameMain aGameMain, String n)
     {
         name = n;
         hand = aHand;
@@ -54,7 +54,7 @@ public class Player
     // INTERFACE
     //------------------------
 
-    public boolean setHand(HashSet aHand)
+    public boolean setHand(HashSet<Card> aHand)
     {
         boolean wasSet = false;
         hand = aHand;

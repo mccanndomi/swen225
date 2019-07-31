@@ -2,8 +2,10 @@
 /*This code was generated using the UMPLE 1.29.1.4597.b7ac3a910 modeling language!*/
 
 
+import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 
 // line 25 "model.ump"
 // line 98 "model.ump"
@@ -25,13 +27,13 @@ public class GameMain
     private ArrayList<Weapons> PlayableWeapons = new ArrayList();
     private List<boardSpot> boardSpots;
     private List<BoardEntity> boardEntities;
-    private ArrayList inactive;
-    private ArrayList active;
+    //ArrayList<Card> inactive;
+    //ArrayList<Card> active;
     public int diceone;
     public int dicetwo;
     public  int numpeople;
     Board aBoard = new Board(PlayableWeapons, ActiveCharacters, PlayableRooms, this);
-    Deck aDeck = new Deck(active, inactive, this);
+    //Deck aDeck = new Deck(active, inactive, this);
 
     //------------------------
     // CONSTRUCTOR
@@ -50,15 +52,149 @@ public class GameMain
             throw new RuntimeException("Unable to create GameMain due to aDeck. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
         }
         */
-        deck = aDeck;
+        //Deck deck;
         players = new ArrayList<Player>();
 
         GenerateWeapons();
         GenerateRooms();
         GenerateStartCharacters();
         chooseCharacters();
+        fillDeck();
+        GenerateMurder();
+        dealCards();
+
 
     }
+
+
+
+
+    public void GenerateMurder(){
+        Random MurderRoomNum = new Random();
+        Random MurderPlayerNum = new Random();
+        Random MurderWeaponNum = new Random();
+        int mr = MurderRoomNum.nextInt(PlayableRooms.size() );
+        int mp = MurderPlayerNum.nextInt(ActiveCharacters.size()  );
+        int mw = MurderWeaponNum.nextInt(PlayableWeapons.size() );
+
+        ArrayList<String> CharacterNames = new ArrayList<>();
+        for (Characters c : ActiveCharacters){
+            CharacterNames.add(c.getName());
+        }
+
+        ArrayList<Card> activecards = deck.getActive();
+        for (Room r : PlayableRooms){
+            // get id nu,bers of rooms and match them
+            if (r.getIDnumber() == mr){
+                for (Card c : activecards){
+                    if (c.getName().equals(r.getName())){
+                        c.setIsMurderCard(true);
+                    }
+                }
+            }
+        }
+        ArrayList<String> weaponnames = new ArrayList<>();
+        weaponnames.add("Candlestick");
+        weaponnames.add("Dagger");
+        weaponnames.add("Lead Pipe");
+        weaponnames.add("Revolver");
+        weaponnames.add("Rope");
+        weaponnames.add("Spanner");
+
+        String nameOfMurderWeapon = weaponnames.get(mw);
+        for (Weapons w : PlayableWeapons){
+            // get id nu,bers of rooms and match them
+            if (w.getName().equals(nameOfMurderWeapon)){
+                for (Card c : activecards){
+                    if (c.getName().equals(nameOfMurderWeapon)){
+                        c.setIsMurderCard(true);
+                    }
+                }
+            }
+        }
+
+        String murderperson = CharacterNames.get(mp);
+
+        for (Card c : activecards){
+            if (c.getName().equals(murderperson)){
+                c.setIsMurderCard(true);
+            }
+        }
+
+
+
+        System.out.println("murder cards are ");
+        for (Card c : activecards){
+            if(c.getIsMurderCard() == true){
+                System.out.println(c.getName());
+            }
+        }
+
+
+    }
+
+
+    public void fillDeck(){
+        ArrayList<Card> active = new ArrayList<>();
+        ArrayList<Card> inactive = new ArrayList<>();
+        deck = new Deck(active, inactive, aBoard);
+        for (Characters c : ActiveCharacters ){
+            String name = c.getName();
+            boolean b = false;
+            CharacterCard ChCard = new CharacterCard(name, b, deck);
+            active.add(ChCard);
+        }
+        for (Weapons w : PlayableWeapons){
+            String name = w.getName();
+            boolean b = false;
+            CharacterCard WCard = new CharacterCard(name, b, deck);
+            active.add(WCard);
+        }
+        for (Room r : PlayableRooms){
+            String name = r.getName();
+            boolean b = false;
+            CharacterCard RCard = new CharacterCard(name, b, deck);
+            active.add(RCard);
+        }
+
+        for (Card c : active) {
+            System.out.println(c.getName());
+        }
+        System.out.println("inactive cards are ");
+        for (Card c : inactive) {
+            System.out.println(c.getName());
+        }
+    }
+
+    public void dealCards(){
+
+        ArrayList<Card> activecards = deck.getActive();
+        int pos = 0;
+
+        int i = 0;
+        for (Player p : Players){
+            HashSet<Card> hand = new HashSet<>();
+            for (int j = 0; j <  activecards.size(); j++) {
+                if(!activecards.get(pos).getIsMurderCard()){
+                    hand.add(activecards.get(pos));
+                    if ((pos + Players.size()) > activecards.size()){
+                        break;
+                    }
+                }
+                pos  = pos + Players.size();
+            }
+            p.setHand(hand);
+            i++;
+        }
+        System.out.println("please work");
+        System.out.println(Players.get(0).getName());
+        Iterator<Card> k= Players.get(0).getHand().iterator();
+        while(k.hasNext())
+        {
+            System.out.println(k.next());
+        }
+    }
+
 
     public GameMain(ArrayList aWeaponsForBoard, ArrayList aCharactersForBoard, ArrayList aRoomsForBoard, ArrayList aActiveForDeck, ArrayList aInactiveForDeck)
     {
@@ -91,7 +227,8 @@ public class GameMain
         for (int i = 0; i < 6; i++) {
             int p = rand.nextInt(roomnums.size());
             int n = roomnums.get(p);
-            Weapons a = new Weapons(aBoard, null, weaponnames.get(i), i);
+            String name = weaponnames.get(i);
+            Weapons a = new Weapons(aBoard, null, name);
             roomnums.remove(p);
             PlayableWeapons.add(a);
         }
@@ -157,7 +294,8 @@ public class GameMain
                     }
 
                     System.out.println(pos);
-                    Room r = new Room(aBoard ,name, corners, notAvailable, doors, PlayableRooms.size()+1);
+                    Room r = new Room(aBoard ,name, corners, notAvailable, doors, PlayableRooms.size());
+                    System.out.println("room number is " + PlayableRooms.size());
                     pos++;
                     PlayableRooms.add(r);
                 }

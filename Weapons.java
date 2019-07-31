@@ -16,9 +16,9 @@ public class Weapons extends Piece
     // CONSTRUCTOR
     //------------------------
 
-    public Weapons(Board aBoard, boardSpot aLocation, String aName, int aRoom)
+    public Weapons(Board aBoard, boardSpot aLocation, String aName )
     {
-        super(aBoard, aLocation, aName);
+        super(aBoard, aLocation, aName );
     }
 
     //------------------------
