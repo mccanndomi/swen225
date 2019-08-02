@@ -160,10 +160,7 @@ public class GameMain
         for (Card c : active) {
             System.out.println(c.getName());
         }
-        System.out.println("inactive cards are ");
-        for (Card c : inactive) {
-            System.out.println(c.getName());
-        }
+
     }
 
     public void dealCards(){
@@ -175,16 +172,21 @@ public class GameMain
         for (Player p : Players){
             HashSet<Card> hand = new HashSet<>();
             for (int j = 0; j <  activecards.size(); j++) {
+                if ((pos + Players.size()) > activecards.size()){
+                    break;
+                }
                 if(!activecards.get(pos).getIsMurderCard()){
                     hand.add(activecards.get(pos));
-                    if ((pos + Players.size()) > activecards.size()){
-                        break;
-                    }
+
                 }
                 pos  = pos + Players.size();
             }
             p.setHand(hand);
+            System.out.println(p.getHand().size());
+
+
             i++;
+            pos = i;
         }
         System.out.println("please work");
         System.out.println(Players.get(0).getName());
@@ -192,6 +194,18 @@ public class GameMain
         while(k.hasNext())
         {
             System.out.println(k.next());
+        }
+        System.out.println(Players.get(1).getName());
+        Iterator<Card> p= Players.get(1).getHand().iterator();
+        while(p.hasNext())
+        {
+            System.out.println(p.next());
+        }
+        System.out.println(Players.get(2).getName());
+        Iterator<Card> l= Players.get(2).getHand().iterator();
+        while(l.hasNext())
+        {
+            System.out.println(l.next());
         }
     }
 
@@ -338,7 +352,7 @@ public class GameMain
             int lx = characterStartLocaations.get(pos);
             int ly = characterStartLocaations.get(pos+1);
             boardSpot b = new boardSpot(lx, ly, false);
-            Characters temp = new Characters(aBoard, null,tempname,tempBool, i);
+            Characters temp = new Characters(aBoard, b,tempname,tempBool, i);
             PlayableCharcters.add(temp);
             pos = pos +2;
         }
