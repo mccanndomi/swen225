@@ -62,6 +62,9 @@ public class GameMain
         fillDeck();
         GenerateMurder();
         dealCards();
+        System.out.println("look at player 0s hand");
+        Player p = Players.get(0);
+        lookAtHand(p);
 
 
     }
@@ -133,6 +136,43 @@ public class GameMain
 
     }
 
+    public boolean makeAccusation(Card a, Card b, Card c ){
+        int count = 0;
+        ArrayList<Card> activecards = deck.getActive();
+        for (Card card : activecards){
+            if (card.getIsMurderCard()){
+                if (card.getName().equals(a.getName())){
+                    count++;
+                }
+                if (card.getName().equals(b.getName())){
+                    count++;
+                }
+                if (card.getName().equals(c.getName())){
+                    count++;
+                }
+
+            }
+        }
+        if (count == 3){
+            return true;
+        }
+        return false;
+
+    }
+
+    public void lookAtHand(Player p){
+        HashSet h = p.getHand();
+        Iterator<Card> hand = p.getHand().iterator();
+        System.out.println("Player " + p.getName() + "'s hand has in it ");
+        while(hand.hasNext())
+        {
+            System.out.println(hand.next().getName());
+        }
+
+    }
+
+
+
 
     public void fillDeck(){
         ArrayList<Card> active = new ArrayList<>();
@@ -188,25 +228,7 @@ public class GameMain
             i++;
             pos = i;
         }
-        System.out.println("please work");
-        System.out.println(Players.get(0).getName());
-        Iterator<Card> k= Players.get(0).getHand().iterator();
-        while(k.hasNext())
-        {
-            System.out.println(k.next());
-        }
-        System.out.println(Players.get(1).getName());
-        Iterator<Card> p= Players.get(1).getHand().iterator();
-        while(p.hasNext())
-        {
-            System.out.println(p.next());
-        }
-        System.out.println(Players.get(2).getName());
-        Iterator<Card> l= Players.get(2).getHand().iterator();
-        while(l.hasNext())
-        {
-            System.out.println(l.next());
-        }
+
     }
 
 
