@@ -3,9 +3,9 @@
 
 
 
-// line 60 "model.ump"
-// line 118 "model.ump"
-public class Weapons extends Piece
+// line 46 "model.ump"
+// line 139 "model.ump"
+public class CharacterCard extends Card
 {
 
     //------------------------
@@ -16,9 +16,9 @@ public class Weapons extends Piece
     // CONSTRUCTOR
     //------------------------
 
-    public Weapons(Board aBoard, boardSpot aLocation, String aName )
+    public CharacterCard(String aName, boolean aIsMurderCard, Deck aDeck)
     {
-        super(aBoard, aLocation, aName );
+        super(aName, aIsMurderCard, aDeck);
     }
 
     //------------------------
