@@ -69,9 +69,6 @@ public class GameMain
 
     }
 
-
-
-
     public void GenerateMurder(){
         Random MurderRoomNum = new Random();
         Random MurderPlayerNum = new Random();
@@ -133,6 +130,27 @@ public class GameMain
             }
         }
 
+
+    }
+
+    public void takeTurn(Player p){
+        System.out.println("it is " + p.getName() + "'s turn: \n would you like to move or make an accusation? press m for move or a for accusation ");
+        InputStreamReader isr = new InputStreamReader(System.in);
+        BufferedReader br = new BufferedReader(isr);
+        try {
+            String answer = br.readLine();
+            if (answer.equals("m") || answer.equals("M")){
+
+            } else if (answer.equals("a") || answer.equals("A")) {
+                System.out.println("The Cards in your hand are ");
+                Iterator<Card> hand = p.getHand().iterator();
+                while (hand.hasNext()) {
+                    System.out.println(hand.next().getName());
+                }
+            }
+        }catch(IOException ioerror){
+            System.out.println("io exception");
+        }
 
     }
 
